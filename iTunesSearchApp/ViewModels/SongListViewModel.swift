@@ -1,17 +1,17 @@
 //
-//  AlbumListViewModel.swift
+//  SongListViewModel.swift
 //  iTunesSearchApp
 //
-//  Created by hiromiick on 2023/10/03.
+//  Created by hiromiick on 2023/10/04.
 //
 
 import Foundation
 import Combine
 
-class AlbumListViewModel: ObservableObject {
+class SongListViewModel: ObservableObject {
     
     @Published var searchTerm: String = ""
-    @Published var albums: [Album] = [Album]()
+    @Published var songs: [Song] = [Song]()
     @Published var state: FetchState = .default
     
     private let limit: Int = 20
@@ -27,26 +27,26 @@ class AlbumListViewModel: ObservableObject {
                 guard let self else { return }
                 state = .default
                 page = 0
-                albums = []
-                fetchAlbums(for: term)
+                songs = []
+                fetchSongs(for: term)
             }.store(in: &subscriptions)
     }
     
     func loadMore() {
-        fetchAlbums(for: searchTerm)
+        fetchSongs(for: searchTerm)
     }
     
-    func fetchAlbums(for searchTerm: String) {
+    func fetchSongs(for searchTerm: String) {
         guard !searchTerm.isEmpty else { return }
         guard state == .default else { return }
         
-        service.fetchAlbums(searchTerm: searchTerm, page: page, limit: limit) { result in
+        service.fetchSongs(searchTerm: searchTerm, page: page, limit: limit) { result in
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 switch result {
                 case .success(let results):
-                    for album in results.results {
-                        albums.append(album)
+                    for song in results.results {
+                        songs.append(song)
                     }
                     page += 1
                     state = results.results.count == limit ? .default : .loadedAll
