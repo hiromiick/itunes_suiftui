@@ -58,4 +58,10 @@ class SongListViewModel: ObservableObject {
             }
         }
     }
+    
+    static func example() -> SongListViewModel {
+        let vm = SongListViewModel()
+        vm.songs = [Song.mock]
+        return vm
+    }
 }

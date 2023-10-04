@@ -14,7 +14,7 @@ struct SongListView: View {
     var body: some View {
         List {
             ForEach(viewModel.songs) { song in
-                Text(song.trackName)
+                SongRowView(song: song)
             }
             switch viewModel.state {
             case .default:
@@ -38,5 +38,5 @@ struct SongListView: View {
 }
 
 #Preview {
-    SongListView(viewModel: SongListViewModel())
+    SongListView(viewModel: SongListViewModel.example())
 }

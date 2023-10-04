@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchPlaceholderView: View {
     
     @Binding var searchTerm: String
-    let suggestions = ["klose", "mongol800", "alicia", "christina", "ocean", "fight"]
+    let suggestions = ["klose", "mongol800", "alicia", "christina", "ocean", "fight", "bruno"]
     
     var body: some View {
         VStack(spacing: 20) {

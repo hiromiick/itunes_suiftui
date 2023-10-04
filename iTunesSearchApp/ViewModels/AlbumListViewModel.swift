@@ -58,4 +58,10 @@ class AlbumListViewModel: ObservableObject {
             }
         }
     }
+    
+    static func example() -> AlbumListViewModel {
+        let vm = AlbumListViewModel()
+        vm.albums = [Album.mock]
+        return vm
+    }
 }
