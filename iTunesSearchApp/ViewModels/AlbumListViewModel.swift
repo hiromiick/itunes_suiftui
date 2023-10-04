@@ -6,35 +6,55 @@
 //
 
 import Foundation
-import Combine
+import Observation
 
-class AlbumListViewModel: ObservableObject {
+@Observable
+class AlbumListViewModel {
     
-    @Published var searchTerm: String = ""
-    @Published var albums: [Album] = [Album]()
-    @Published var state: FetchState = .default
-    
-    private let limit: Int = 20
-    private var page: Int = 0
-    private let service = APIService()
-    private var subscriptions = Set<AnyCancellable>()
-    
-    init() {
-        $searchTerm
-            .receive(on: RunLoop.main)
-            .removeDuplicates()
-            .dropFirst()
-            .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
-            .sink { [weak self] term in
-                guard let self else { return }
+    @ObservationIgnored var _searchTerm: String = ""
+    var searchTerm: String {
+        get {
+            access(keyPath: \.state)
+            return _searchTerm
+        }
+        
+        set {
+            withMutation(keyPath: \.state) {
+                _searchTerm = newValue
                 state = .default
                 page = 0
                 albums = []
                 Task {
-                    await self.fetchAlbums(for: term)
+                    await fetchAlbums(for: newValue)
                 }
-            }.store(in: &subscriptions)
+            }
+        }
     }
+    var albums: [Album] = [Album]()
+    var state: FetchState = .default
+    
+    @ObservationIgnored private let limit: Int = 20
+    @ObservationIgnored private var page: Int = 0
+    @ObservationIgnored private let service = APIService()
+    
+    
+    #warning("現時点では、combineのdebounceなどは使用出来ないため、常にAPIを発火してしまう。これは自分でAPI使用状況を管理して、API呼び出しをコントロールする必要がある。 eg) isApiLoading")
+//    init() {
+//        $searchTerm
+//            .receive(on: RunLoop.main)
+//            .removeDuplicates()
+//            .dropFirst()
+//            .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+//            .sink { [weak self] term in
+//                guard let self else { return }
+//                state = .default
+//                page = 0
+//                albums = []
+//                Task {
+//                    await self.fetchAlbums(for: term)
+//                }
+//            }.store(in: &subscriptions)
+//    }
     
     func loadMore() async {
         await fetchAlbums(for: searchTerm)

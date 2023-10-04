@@ -1,16 +1,15 @@
 //
-//  SearchPlaceholderView.swift
+//  MovieSearchPlaceholderView.swift
 //  iTunesSearchApp
 //
-//  Created by hiromiick on 2023/10/04.
+//  Created by hiromiick on 2023/10/05.
 //
 
 import SwiftUI
 
-struct SearchPlaceholderView: View {
+struct MovieSearchPlaceholderView: View {
     
-    @Binding var searchTerm: String
-    
+    @Bindable var viewModel: MovieListViewModel
     let suggestions = ["klose", "mongol800", "alicia", "christina", "ocean", "fight", "bruno"]
     
     var body: some View {
@@ -20,7 +19,7 @@ struct SearchPlaceholderView: View {
             
             ForEach(suggestions, id: \.self) { text in
                 Button {
-                    searchTerm = text
+                    viewModel.searchTerm = text
                 } label: {
                     Text(text)
                         .font(.title2)
@@ -30,7 +29,6 @@ struct SearchPlaceholderView: View {
     }
 }
 
-
 #Preview {
-    SearchPlaceholderView(searchTerm: .constant(""))
+    MovieSearchPlaceholderView(viewModel: MovieListViewModel.example())
 }

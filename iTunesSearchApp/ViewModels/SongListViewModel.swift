@@ -6,34 +6,37 @@
 //
 
 import Foundation
-import Combine
+import Observation
 
-class SongListViewModel: ObservableObject {
+@Observable
+class SongListViewModel {
     
-    @Published var searchTerm: String = ""
-    @Published var songs: [Song] = [Song]()
-    @Published var state: FetchState = .default
-    
-    private let limit: Int = 20
-    private var page: Int = 0
-    private let service = APIService()
-    private var subscriptions = Set<AnyCancellable>()
-    
-    init() {
-        $searchTerm
-            .removeDuplicates()
-            .dropFirst()
-            .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
-            .sink { [weak self] term in
-                guard let self else { return }
+    @ObservationIgnored var _searchTerm: String = ""
+    var searchTerm: String {
+        get {
+            access(keyPath: \.state)
+            return _searchTerm
+        }
+        
+        set {
+            withMutation(keyPath: \.state) {
+                _searchTerm = newValue
                 state = .default
                 page = 0
                 songs = []
                 Task {
-                    await self.fetchSongs(for: term)
+                    await fetchSongs(for: newValue)
                 }
-            }.store(in: &subscriptions)
+            }
+        }
     }
+    var songs: [Song] = [Song]()
+    var state: FetchState = .default
+    
+    @ObservationIgnored private let limit: Int = 20
+    @ObservationIgnored private var page: Int = 0
+    @ObservationIgnored private let service = APIService()
+    
     
     func loadMore() async {
         await fetchSongs(for: searchTerm)

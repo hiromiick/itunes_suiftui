@@ -9,14 +9,14 @@ import SwiftUI
 
 struct MovieSearchView: View {
     
-    @StateObject var viewModel = MovieListViewModel()
+    @State var viewModel = MovieListViewModel()
     
     var body: some View {
         NavigationView {
             
             Group {
                 if viewModel.searchTerm.isEmpty {
-                    SearchPlaceholderView(searchTerm: $viewModel.searchTerm)
+                    MovieSearchPlaceholderView(viewModel: viewModel)
                 } else {
                     MovieListView(viewModel: viewModel)
                 }

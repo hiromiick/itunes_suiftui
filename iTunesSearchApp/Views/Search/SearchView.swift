@@ -12,9 +12,9 @@ struct SearchView: View {
     @State private var searchTerm: String = ""
     @State private var selectedEntityType = EntityType.all
     
-    @StateObject private var albumListViewModel = AlbumListViewModel()
-    @StateObject private var songListViewModel = SongListViewModel()
-    @StateObject private var movieListViewModel = MovieListViewModel()
+    @State private var albumListViewModel = AlbumListViewModel()
+    @State private var songListViewModel = SongListViewModel()
+    @State private var movieListViewModel = MovieListViewModel()
     
     var body: some View {
         NavigationView {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AlbumListView: View {
     
-    @ObservedObject var viewModel: AlbumListViewModel
+    @Bindable var viewModel: AlbumListViewModel
     
     var body: some View {
         List {

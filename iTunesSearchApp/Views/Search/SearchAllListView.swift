@@ -9,9 +9,9 @@ import SwiftUI
 
 struct SearchAllListView: View {
     
-    @ObservedObject var albumListViewModel: AlbumListViewModel
-    @ObservedObject var songListViewModel: SongListViewModel
-    @ObservedObject var movieListViewModel: MovieListViewModel
+    @Bindable var albumListViewModel: AlbumListViewModel
+    @Bindable var songListViewModel: SongListViewModel
+    @Bindable var movieListViewModel: MovieListViewModel
     
     var body: some View {
         ScrollView {
