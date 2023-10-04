@@ -19,8 +19,8 @@ struct SongListView: View {
             switch viewModel.state {
             case .default:
                 Color.clear
-                    .onAppear {
-                        viewModel.loadMore()
+                    .task {
+                        await viewModel.loadMore()
                     }
             case .isLoading:
                 ProgressView()

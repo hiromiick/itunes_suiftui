@@ -9,47 +9,36 @@ import Foundation
 
 class APIService {
     
-    func fetchSongs(searchTerm: String, page: Int, limit: Int, completion: @escaping (Result<SongResult, APIError>) -> Void) {
+    func fetchSongs(searchTerm: String, page: Int, limit: Int) async throws -> SongResult {
         let url = createURL(for: searchTerm, type: .song, page: page, limit: limit)
-        fetch(type: SongResult.self, url: url, completion: completion)
+        return try await fetchAsync(type: SongResult.self, url: url)
     }
     
-    func fetchSongs(for albumId: Int, completion: @escaping (Result<SongResult, APIError>) -> Void) {
+    func fetchSongs(for albumId: Int) async throws -> SongResult {
         let url = createURL(for: albumId, type: .song)
-        fetch(type: SongResult.self, url: url, completion: completion)
+        return try await fetchAsync(type: SongResult.self, url: url)
     }
     
-    func fetchAlbums(searchTerm: String, page: Int, limit: Int, completion: @escaping (Result<AlbumResult, APIError>) -> Void) {
+    func fetchAlbums(searchTerm: String, page: Int, limit: Int) async throws -> AlbumResult {
         let url = createURL(for: searchTerm, type: .album, page: page, limit: limit)
-        fetch(type: AlbumResult.self, url: url, completion: completion)
+        return try await fetchAsync(type: AlbumResult.self, url: url)
     }
     
-    func fetchMovies(searchTerm: String, page: Int, limit: Int, completion: @escaping (Result<MovieResult, APIError>) -> Void) {
+    func fetchMovies(searchTerm: String, page: Int, limit: Int) async throws -> MovieResult {
         let url = createURL(for: searchTerm, type: .movie, page: page, limit: limit)
-        fetch(type: MovieResult.self, url: url, completion: completion)
+        return try await fetchAsync(type: MovieResult.self, url: url)
     }
     
-    func fetch<T: Decodable>(type: T.Type, url: URL?, completion: @escaping (Result<T, APIError>) -> Void) {
-        guard let url else {
-            let error = APIError.badURL
-            completion(.failure(error))
-            return
+    func fetchAsync<T: Decodable>(type: T.Type, url: URL?) async throws -> T {
+        guard let url else { throw APIError.badURL }
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+            throw APIError.badResponse((response as? HTTPURLResponse)?.statusCode ?? 0)
         }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error as? URLError {
-                completion(.failure(APIError.urlSession(error)))
-            } else if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
-                completion(.failure(APIError.badResponse(response.statusCode)))
-            } else if let data {
-                do {
-                    let result = try JSONDecoder().decode(type, from: data)
-                    completion(.success(result))
-                } catch {
-                    completion(.failure(APIError.decoding(error as? DecodingError)))
-                }
-            }
-        }.resume()
+        guard let result = try? JSONDecoder().decode(type, from: data) else {
+            throw APIError.decoding(nil)
+        }
+        return result
     }
     
     func createURL(for searchTerm: String, type: EntityType, page: Int, limit: Int) -> URL? {

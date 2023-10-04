@@ -50,8 +50,8 @@ struct AlbumDetailView: View {
             
             SongsForAlbumListView(songsViewModel: songsViewModel)
         }
-        .onAppear() {
-            songsViewModel.fetch()
+        .task {
+            await songsViewModel.fetch()
         }
     }
     

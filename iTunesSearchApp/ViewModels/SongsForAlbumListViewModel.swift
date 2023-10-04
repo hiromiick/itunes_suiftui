@@ -19,25 +19,24 @@ class SongsForAlbumListViewModel: ObservableObject {
         self.albumId = albumId
     }
     
-    func fetch() {
-        fetchSongs(for: albumId)
+    func fetch() async {
+        await fetchSongs(for: albumId)
     }
     
-    private func fetchSongs(for albumId: Int) {
-        service.fetchSongs(for: albumId) { result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                switch result {
-                case .success(let results):
-                    var temp = results.results
-                    _ = temp.removeFirst()
-                    songs = temp
-                    state = .default
-                case .failure(let error):
-                    state = .error("Could not load: \(error.self): \(error.localizedDescription)")
-                    print("test: error: \(error)")
-                    
-                }
+    private func fetchSongs(for albumId: Int) async {
+        
+        do {
+            let results = try await service.fetchSongs(for: albumId)
+            await MainActor.run {
+                var temp = results.results
+                _ = temp.removeFirst()
+                songs = temp
+                state = .default
+            }
+        } catch {
+            await MainActor.run {
+                state = .error("Could not load: \(error.self): \(error.localizedDescription)")
+                print("test: error: \(error)")
             }
         }
     }

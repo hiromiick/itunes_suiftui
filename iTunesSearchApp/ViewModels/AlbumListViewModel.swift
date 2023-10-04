@@ -21,6 +21,7 @@ class AlbumListViewModel: ObservableObject {
     
     init() {
         $searchTerm
+            .receive(on: RunLoop.main)
             .removeDuplicates()
             .dropFirst()
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
@@ -29,32 +30,32 @@ class AlbumListViewModel: ObservableObject {
                 state = .default
                 page = 0
                 albums = []
-                fetchAlbums(for: term)
+                Task {
+                    await self.fetchAlbums(for: term)
+                }
             }.store(in: &subscriptions)
     }
     
-    func loadMore() {
-        fetchAlbums(for: searchTerm)
+    func loadMore() async {
+        await fetchAlbums(for: searchTerm)
     }
     
-    func fetchAlbums(for searchTerm: String) {
+    func fetchAlbums(for searchTerm: String) async {
         guard !searchTerm.isEmpty else { return }
         guard state == .default else { return }
         
-        service.fetchAlbums(searchTerm: searchTerm, page: page, limit: limit) { result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                switch result {
-                case .success(let results):
-                    for album in results.results {
-                        albums.append(album)
-                    }
-                    page += 1
-                    state = results.results.count == limit ? .default : .loadedAll
-                case .failure(let error):
-                    state = .error("Could not load: \(error.self): \(error.localizedDescription)")
-                    
+        do {
+            let results = try await service.fetchAlbums(searchTerm: searchTerm, page: page, limit: limit)
+            await MainActor.run {
+                for album in results.results {
+                    albums.append(album)
                 }
+                page += 1
+                state = results.results.count == limit ? .default : .loadedAll
+            }
+        } catch {
+            await MainActor.run {
+                state = .error("Could not load: \(error.self): \(error.localizedDescription)")
             }
         }
     }
