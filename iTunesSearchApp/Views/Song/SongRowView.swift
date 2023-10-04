@@ -19,10 +19,10 @@ struct SongRowView: View {
     
     var body: some View {
         HStack {
-            ImageLoadingView(urlString: song.artworkUrl60, size: 60)
+            ImageLoadingView(urlString: song.artworkUrl60 ?? "", size: 60)
             
             VStack(alignment: .leading) {
-                Text(song.trackName)
+                Text(song.trackName ?? "")
                 Text(song.artistName + " - " + song.collectionName)
                     .font(.caption)
                     .foregroundStyle(.gray)

@@ -34,5 +34,5 @@ struct ImageLoadingView: View {
 
 
 #Preview {
-    ImageLoadingView(urlString: Song.mock.artworkUrl30, size: 100)
+    ImageLoadingView(urlString: Song.mock.artworkUrl30 ?? "", size: 100)
 }

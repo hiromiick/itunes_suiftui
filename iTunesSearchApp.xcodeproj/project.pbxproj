@@ -38,6 +38,9 @@
 		30EC4A892ACD376100B86184 /* AlbumSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EC4A882ACD376100B86184 /* AlbumSectionView.swift */; };
 		30EC4A8B2ACD376900B86184 /* SongSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EC4A8A2ACD376900B86184 /* SongSectionView.swift */; };
 		30EC4A8D2ACD377000B86184 /* MovieSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EC4A8C2ACD377000B86184 /* MovieSectionView.swift */; };
+		30EC4A8F2ACD63CA00B86184 /* AlbumDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EC4A8E2ACD63CA00B86184 /* AlbumDetailView.swift */; };
+		30EC4A912ACD67F700B86184 /* SongsForAlbumListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EC4A902ACD67F700B86184 /* SongsForAlbumListViewModel.swift */; };
+		30EC4A932ACD6A8300B86184 /* SongsForAlbumListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EC4A922ACD6A8300B86184 /* SongsForAlbumListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +76,9 @@
 		30EC4A882ACD376100B86184 /* AlbumSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSectionView.swift; sourceTree = "<group>"; };
 		30EC4A8A2ACD376900B86184 /* SongSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSectionView.swift; sourceTree = "<group>"; };
 		30EC4A8C2ACD377000B86184 /* MovieSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSectionView.swift; sourceTree = "<group>"; };
+		30EC4A8E2ACD63CA00B86184 /* AlbumDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailView.swift; sourceTree = "<group>"; };
+		30EC4A902ACD67F700B86184 /* SongsForAlbumListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsForAlbumListViewModel.swift; sourceTree = "<group>"; };
+		30EC4A922ACD6A8300B86184 /* SongsForAlbumListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsForAlbumListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +150,7 @@
 				30EC4A522ACC550400B86184 /* AlbumListViewModel.swift */,
 				30EC4A602ACCFC6A00B86184 /* SongListViewModel.swift */,
 				30EC4A642ACCFD7400B86184 /* MovieListViewModel.swift */,
+				30EC4A902ACD67F700B86184 /* SongsForAlbumListViewModel.swift */,
 				30EC4A702ACD05B500B86184 /* EntityType.swift */,
 			);
 			path = ViewModels;
@@ -168,6 +175,8 @@
 				30EC4A5A2ACC6CF500B86184 /* AlbumSearchView.swift */,
 				30EC4A812ACD2DCE00B86184 /* AlbumRowView.swift */,
 				30EC4A882ACD376100B86184 /* AlbumSectionView.swift */,
+				30EC4A8E2ACD63CA00B86184 /* AlbumDetailView.swift */,
+				30EC4A922ACD6A8300B86184 /* SongsForAlbumListView.swift */,
 			);
 			path = Album;
 			sourceTree = "<group>";
@@ -305,16 +314,19 @@
 				30EC4A792ACD093300B86184 /* SongListView.swift in Sources */,
 				30EC4A652ACCFD7400B86184 /* MovieListViewModel.swift in Sources */,
 				30EC4A872ACD35A400B86184 /* ImageLoadingView.swift in Sources */,
+				30EC4A932ACD6A8300B86184 /* SongsForAlbumListView.swift in Sources */,
 				30EC4A7D2ACD20C300B86184 /* SongRowView.swift in Sources */,
 				30EC4A892ACD376100B86184 /* AlbumSectionView.swift in Sources */,
 				30EC4A772ACD092000B86184 /* SongSearchView.swift in Sources */,
 				30EC4A802ACD219F00B86184 /* BuyButtonStyle.swift in Sources */,
 				30EC4A572ACC570F00B86184 /* Movie.swift in Sources */,
+				30EC4A912ACD67F700B86184 /* SongsForAlbumListViewModel.swift in Sources */,
 				30EC4A402ACC54AD00B86184 /* iTunesSearchAppApp.swift in Sources */,
 				30EC4A822ACD2DCE00B86184 /* AlbumRowView.swift in Sources */,
 				30EC4A512ACC54EB00B86184 /* Album.swift in Sources */,
 				30EC4A5F2ACCF9E200B86184 /* APIService.swift in Sources */,
 				30EC4A6F2ACD053100B86184 /* SearchView.swift in Sources */,
+				30EC4A8F2ACD63CA00B86184 /* AlbumDetailView.swift in Sources */,
 				30EC4A552ACC570900B86184 /* Song.swift in Sources */,
 				30EC4A592ACC58EC00B86184 /* AlbumListView.swift in Sources */,
 				30EC4A5D2ACCF18F00B86184 /* APIError.swift in Sources */,
