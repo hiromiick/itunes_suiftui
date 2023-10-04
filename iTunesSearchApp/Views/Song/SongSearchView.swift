@@ -1,5 +1,5 @@
 //
-//  MovieSearchView.swift
+//  SongSearchView.swift
 //  iTunesSearchApp
 //
 //  Created by hiromiick on 2023/10/04.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct MovieSearchView: View {
+struct SongSearchView: View {
     
-    @StateObject var viewModel = MovieListViewModel()
+    @StateObject var viewModel = SongListViewModel()
     
     var body: some View {
         NavigationView {
@@ -18,7 +18,7 @@ struct MovieSearchView: View {
                 if viewModel.searchTerm.isEmpty {
                     SearchPlaceholderView(searchTerm: $viewModel.searchTerm)
                 } else {
-                    MovieListView(viewModel: viewModel)
+                    SongListView(viewModel: viewModel)
                 }
             }
             
@@ -29,5 +29,5 @@ struct MovieSearchView: View {
 }
 
 #Preview {
-    MovieSearchView()
+    SongSearchView()
 }

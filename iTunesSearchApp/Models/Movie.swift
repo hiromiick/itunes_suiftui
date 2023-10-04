@@ -28,7 +28,7 @@ struct Movie: Codable, Identifiable {
     let trackRentalPrice, collectionHDPrice, trackHDPrice, trackHDRentalPrice: Double?
     let releaseDate: String
     let collectionExplicitness, trackExplicitness: String
-    let trackTimeMillis: Int
+    let trackTimeMillis: Int?
     let country, currency, primaryGenreName, contentAdvisoryRating: String
     let shortDescription, longDescription: String?
     
